@@ -50,7 +50,7 @@ import frc.robot.subsystems.ScoringMotor;
 public class RobotContainer {
   // The robot's subsystems and commands
   private final CommandXboxController driver = new CommandXboxController(1); 
-  private final CommandXboxController scorer = new CommandXboxController(0); 
+  //private final CommandXboxController scorer = new CommandXboxController(0); 
   private final SendableChooser<Command> autoChooser;
   private final Swerve s_Swerve = new Swerve();
   private final ScoringMotor s_Elevator = new ScoringMotor();
@@ -58,8 +58,8 @@ public class RobotContainer {
   private final Trigger yButton = driver.y();
   private final Trigger aButton = driver.a();
   private final Trigger bButton = driver.b();
-  private final Trigger scorerBButton = scorer.b();
-  private final Trigger scorerAButton = scorer.a();
+  //private final Trigger scorerBButton = scorer.b();
+  //private final Trigger scorerAButton = scorer.a();
   private final Trigger backButton = driver.back(); // Assuming `back` is already defined
   private final Trigger start = driver.start();
   private final Trigger rightTrigger = driver.rightTrigger();
@@ -123,11 +123,12 @@ public class RobotContainer {
 
     // xButton.onTrue(new InstantCommand(() -> s_Climber.trapOn()));
     // xButton.onFalse(new InstantCommand(() -> s_Climber.trapOff()));
-    scorerAButton.onTrue(new InstantCommand(() -> ScoringMotor.runMotorForwards()));
+    yButton.whileTrue(new InstantCommand(() -> ScoringMotor.runMotorForwards()));
+    yButton.onFalse(new InstantCommand(() -> ScoringMotor.stop()));
     // rightBumper.onTrue(new InstantCommand(() -> s_Spitter.OuttakeIn()));
     // bButton.onTrue(s_Elevator.setHeight());
-    scorerBButton.whileTrue(MR_tag.andThen(Commands.runOnce(() -> ScoringMotor.runMotorForwards())));//.until(()->s_Spitter.curr_state.equals(s_Spitter.states[0])));
-    scorerBButton.onFalse(Commands.runOnce(() -> ScoringMotor.stop()));
+    aButton.whileTrue(MR_tag.andThen(Commands.runOnce(() -> ScoringMotor.runMotorForwards())));//.until(()->s_Spitter.curr_state.equals(s_Spitter.states[0])));
+    aButton.onFalse(Commands.runOnce(() -> ScoringMotor.stop()));
 
   }
 
